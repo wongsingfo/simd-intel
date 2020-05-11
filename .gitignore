@@ -1,0 +1,8 @@
+# CLion
+
+/.idea
+cmake-*
+
+# MacOSX
+
+.DS_Store
