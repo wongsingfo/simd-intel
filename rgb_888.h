@@ -16,11 +16,9 @@ public:
 
     RGB888(size_t width, size_t height);
 
-    ~RGB888();
+    void free();
 
     void write_to_ppm(const std::string& filename);
-
-private:
 
 	std::string filename_;
 

@@ -13,12 +13,6 @@ YUV420::YUV420(size_t width, size_t height)
           u_(new uint8_t[size_]),
           v_(new uint8_t[size_]) {}
 
-YUV420::~YUV420() {
-    delete[] y_;
-    delete[] u_;
-    delete[] v_;
-}
-
 void YUV420::read_from_file(const std::string &filename) {
     filename_ = filename;
 
@@ -76,4 +70,10 @@ void YUV420::read_from_file(const std::string &filename) {
         }
     }
 
+}
+
+void YUV420::free() {
+    delete[] y_;
+    delete[] u_;
+    delete[] v_;
 }

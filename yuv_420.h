@@ -14,11 +14,9 @@ public:
 
     YUV420(size_t width, size_t height);
 
-    ~YUV420();
-
     void read_from_file(const std::string& filename);
 
-private:
+    void free();
 
 	std::string filename_;
 
