@@ -14,6 +14,9 @@ public:
 
     static RGB888 YUV2RGB(YUV420 image);
 
+    // image1 * alpha
+    static YUV420 AlphaBlending(YUV420 image, uint8_t alpha);
+
 private:
 
     static uint8_t clamp(int x);

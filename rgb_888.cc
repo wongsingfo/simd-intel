@@ -15,11 +15,11 @@ void RGB888::write_to_ppm(const std::string &filename) {
 
     // Binary Portable PixMap
     stream << "P6\n";
-    stream << width_ << " " << height_ << " 255\n";
+    stream << kWidth << " " << kHeight << " 255\n";
 
     int begin = stream.tellp();
 
-    for (size_t i = 0; i < size_; i++) {
+    for (size_t i = 0; i < kSize; i++) {
         stream.put((char) r_[i]);
         stream.put((char) g_[i]);
         stream.put((char) b_[i]);
@@ -27,17 +27,14 @@ void RGB888::write_to_ppm(const std::string &filename) {
 
     int end = stream.tellp();
 
-    assert((end - begin) == size_ * 3);
+    assert((end - begin) == kSize * 3);
 }
 
-RGB888::RGB888(size_t width, size_t height)
+RGB888::RGB888()
         : filename_("unknown"),
-          width_(width),
-          height_(height),
-          size_(width * height),
-          r_(new uint8_t[size_]),
-          g_(new uint8_t[size_]),
-          b_(new uint8_t[size_]) {}
+          r_(new uint8_t[kSize]),
+          g_(new uint8_t[kSize]),
+          b_(new uint8_t[kSize]) {}
 
 void RGB888::free() {
     delete[] r_;

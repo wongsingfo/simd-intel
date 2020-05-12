@@ -9,8 +9,8 @@
 
 template <typename Impl>
 void do_work(Impl impl) {
-	YUV420 image1(1920, 1080);
-    image1.read_from_file("dem1.yuv");
+	YUV420 image1;
+    image1.read_from_yuv("dem1.yuv");
     RGB888 output = impl.YUV2RGB(image1);
     output.write_to_ppm("output.ppm");
 

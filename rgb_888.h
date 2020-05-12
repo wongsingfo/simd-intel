@@ -9,24 +9,19 @@
 #include <string>
 #include <memory>
 
+#include "config.h"
 
 class RGB888 {
 
 public:
 
-    RGB888(size_t width, size_t height);
+    RGB888();
 
     void free();
 
     void write_to_ppm(const std::string& filename);
 
 	std::string filename_;
-
-    size_t width_;
-
-    size_t height_;
-
-    size_t size_;
 
     uint8_t *r_;
 

@@ -5,11 +5,9 @@
 #include "impl_general.h"
 
 RGB888 ImplGeneral::YUV2RGB(YUV420 image) {
-    RGB888 result(image.width_, image.height_);
+    RGB888 result;
 
-    int size = image.size_;
-
-    for (int i = 0; i < size; i++) {
+    for (int i = 0; i < kSize; i++) {
         int c = image.y_[i] - 16;
         int d = image.u_[i] - 128;
         int e = image.v_[i] - 128;
@@ -29,4 +27,10 @@ uint8_t ImplGeneral::clamp(int x) {
         x = 255;
     }
     return x;
+}
+
+YUV420 ImplGeneral::AlphaBlending(YUV420 image, uint8_t alpha) {
+    YUV420 result;
+
+    return result;
 }

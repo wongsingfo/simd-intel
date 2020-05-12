@@ -7,14 +7,17 @@
 
 #include <string>
 #include <memory>
+#include <istream>
 
 class YUV420 {
 
 public:
 
-    YUV420(size_t width, size_t height);
+    YUV420();
 
-    void read_from_file(const std::string& filename);
+    void read_from_yuv(const std::string& filename);
+
+    void write_to_yuv(const std::string& filename);
 
     void free();
 
@@ -31,6 +34,10 @@ public:
     uint8_t *u_;
 
     uint8_t *v_;
+
+private:
+
+    void read_from_yuv4(std::istream &stream, uint8_t *data);
 
 };
 
