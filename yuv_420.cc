@@ -58,5 +58,20 @@ void YUV420::write_to_yuv(const std::string &filename) {
 
     stream.open(filename, std::ofstream::binary);
 
+    stream.write((char*) y_, kSize);
 
+    write_to_yuv4(stream, u_);
+
+    write_to_yuv4(stream, v_);
 }
+
+void YUV420::write_to_yuv4(std::ostream &stream, uint8_t *data) {
+    for (int i = 0; i < kHeight; i += 2) {
+        int offset = i * kWidth;
+        for (int j = 0; j < kWidth; j += 2) {
+            char c = data[offset + j];
+            stream.write((char*) &c, 1);
+        }
+    }
+}
+

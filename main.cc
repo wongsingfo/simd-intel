@@ -11,8 +11,8 @@ template <typename Impl>
 void do_work(Impl impl) {
 	YUV420 image1;
     image1.read_from_yuv("dem1.yuv");
-    RGB888 output = impl.YUV2RGB(image1);
-    output.write_to_ppm("output.ppm");
+    YUV420 output = impl.AlphaBlending(image1, 128);
+    output.write_to_yuv("output.yuv");
 
     image1.free();
     output.free();

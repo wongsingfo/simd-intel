@@ -39,6 +39,8 @@ private:
 
     void read_from_yuv4(std::istream &stream, uint8_t *data);
 
+    void write_to_yuv4(std::ostream &stream, uint8_t *data);
+
 };
 
 
