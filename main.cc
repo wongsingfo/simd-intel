@@ -8,6 +8,7 @@
 #include "impl_general.h"
 #include "impl_simd_mmx.h"
 #include "impl_simd_sse2.h"
+#include "impl_simd_avx.h"
 
 template <typename Impl>
 void do_work(Impl impl) {
@@ -25,7 +26,8 @@ int main() {
         
         // do_work(ImplGeneral());
         // do_work(ImplSimdMMX());
-        do_work(ImplSimdSSE2());
+        // do_work(ImplSimdSSE2());
+        do_work(ImplSimdAVX());
 
 
     } catch (const std::exception& e) {

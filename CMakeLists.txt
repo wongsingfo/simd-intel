@@ -8,3 +8,5 @@ add_executable(test
         rgb_888.cc
         impl_general.cc)
 
+set(CMAKE_CXX_FLAGS -mavx2)
+# set(CMAKE_EXE_LINKER_FLAGS -mavx2)
