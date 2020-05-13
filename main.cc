@@ -6,6 +6,7 @@
 #include "yuv_420.h"
 #include "rgb_888.h"
 #include "impl_general.h"
+#include "impl_simd_mmx.h"
 
 template <typename Impl>
 void do_work(Impl impl) {
@@ -21,7 +22,9 @@ void do_work(Impl impl) {
 int main() {
     try {
         
-        do_work(ImplGeneral());
+        // do_work(ImplGeneral());
+        do_work(ImplSimdMMX());
+
 
     } catch (const std::exception& e) {
         std::cerr << e.what() << std::endl;

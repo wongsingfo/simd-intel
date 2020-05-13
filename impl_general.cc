@@ -33,6 +33,9 @@ YUV420 ImplGeneral::AlphaBlending(YUV420 image, uint8_t alpha) {
     YUV420 result;
 
     for (int i = 0; i < kSize; i++) {
+        // solution 1
+
+        /*
         int c = image.y_[i] - 16;
         int d = image.u_[i] - 128;
         int e = image.v_[i] - 128;
@@ -41,13 +44,38 @@ YUV420 ImplGeneral::AlphaBlending(YUV420 image, uint8_t alpha) {
         int g = clamp((298 * c - 100 * d - 208 * e + 128) >> 8);
         int b = clamp((298 * c + 516 * d + 128) >> 8);
 
+        result.y_[i] = clamp(((66 * r + 129 * g + 25 * b + 128) >> 8) + 16);
+        result.u_[i] = clamp(((-38 * r - 74 * g + 112 * b + 128) >> 8) + 128);
+        result.v_[i] = clamp(((112 * r - 94 * g - 18 * b + 128) >> 8) + 128);
+        */
+
+
+        // solution 2
+        /* 
+        int c = image.y_[i];
+        int d = image.u_[i];
+        int e = image.v_[i];
+
+        int r = clamp((298 * c + 409 * e - 56992) >> 8);
+        int g = clamp((298 * c - 100 * d - 208 * e + 34784) >> 8);
+        int b = clamp((298 * c + 516 * d - 70688) >> 8);
+
         r = (r * alpha) >> 8;
         g = (g * alpha) >> 8;
         b = (b * alpha) >> 8;
 
-        result.y_[i] = clamp(((66 * r + 129 * g + 25 * b + 128) >> 8) + 16);
-        result.u_[i] = clamp(((-38 * r - 74 * g + 112 * b + 128) >> 8) + 128);
-        result.v_[i] = clamp(((112 * r - 94 * g - 18 * b + 128) >> 8) + 128);
+        result.y_[i] = clamp((66 * r + 129 * g + 25 * b + 4224) >> 8);
+        result.u_[i] = clamp((-38 * r - 74 * g + 112 * b + 32896) >> 8);
+        result.v_[i] = clamp((112 * r - 94 * g - 18 * b + 32896) >> 8); 
+
+        */
+
+        // solution 3
+
+        result.y_[i] = (alpha * (image.y_[i] - 16) >> 8) + 16;
+        result.u_[i] = (alpha * (image.u_[i] - 128) >> 8) + 128;
+        result.v_[i] = (alpha * (image.v_[i] - 128) >> 8) + 128;
+
     }
 
     return result;

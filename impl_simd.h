@@ -13,8 +13,35 @@ class ImplSimd {
 
 public:
 
-    static RGB888 YUV2RGB(YUV420 image) {
-    	
+    using Vector = typename SIMD::Vector;
+
+    // image1 * alpha
+    static YUV420 AlphaBlending(YUV420 image, uint8_t alpha) {
+        YUV420 result;
+
+        Vector c16 = SIMD::constant(16);
+        Vector c128 = SIMD::constant(128);
+        Vector calpha = SIMD::constant(alpha);
+
+        for (int i = 0; i < kSize; i += SIMD::step) {
+            Vector x = SIMD::load(&image.y_[i]);
+            x = SIMD::add(SIMD::srai(SIMD::mul(calpha, SIMD::sub(x, c16)), 8), c16);
+            SIMD::store(&result.y_[i], x);
+        }
+
+        for (int i = 0; i < kSize; i += SIMD::step) {
+            Vector x = SIMD::load(&image.u_[i]);
+            x = SIMD::add(SIMD::srai(SIMD::mul(calpha, SIMD::sub(x, c128)), 8), c128);
+            SIMD::store(&result.u_[i], x);
+        }
+
+        for (int i = 0; i < kSize; i += SIMD::step) {
+            Vector x = SIMD::load(&image.v_[i]);
+            x = SIMD::add(SIMD::srai(SIMD::mul(calpha, SIMD::sub(x, c128)), 8), c128);
+            SIMD::store(&result.v_[i], x);
+        }
+
+        return result;
     }
 
 
