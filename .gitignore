@@ -1,6 +1,7 @@
 # CLion
 
 /.idea
+/out
 cmake-*
 
 # MacOSX

@@ -1,3 +1,4 @@
+project(simd_test)
 
 set(CMAKE_CXX_STANDARD 11)
 
