@@ -54,9 +54,44 @@ public:
 	inline static Vector mul(const Vector& a, const Vector& b) {
 		return _mm_mullo_epi16(a, b);
 	}
+
+	static YUV420 AlphaBlending(YUV420 image, uint8_t alpha) {
+        YUV420 result;
+
+        Vector c16 = _mm_set1_epi16(16);
+        Vector c128 = _mm_set1_epi16(128);
+        Vector calpha = _mm_set1_epi16(alpha);
+        Vector zero = _mm_setzero_si128();
+
+        for (int i = 0; i < kSize; i += step) {
+            Vector tmp = _mm_loadu_si64((void*) &image.y_[i]);
+            Vector x = _mm_unpacklo_epi8(tmp, zero);
+            x = _mm_add_epi16(_mm_srai_epi16(_mm_mullo_epi16(calpha, _mm_sub_epi16(x, c16)), 8), c16);
+            tmp = _mm_packs_epi16(x, zero);
+			_mm_storel_pd((double*) &result.y_[i], tmp);
+        }
+
+        for (int i = 0; i < kSize; i += step) {
+            Vector tmp = _mm_loadu_si64((void*) &image.u_[i]);
+            Vector x = _mm_unpacklo_epi8(tmp, zero);
+            x = _mm_add_epi16(_mm_srai_epi16(_mm_mullo_epi16(calpha, _mm_sub_epi16(x, c128)), 8), c128);
+            tmp = _mm_packs_epi16(x, zero);
+			_mm_storel_pd((double*) &result.u_[i], tmp);
+        }
+
+        for (int i = 0; i < kSize; i += step) {
+            Vector tmp = _mm_loadu_si64((void*) &image.v_[i]);
+            Vector x = _mm_unpacklo_epi8(tmp, zero);
+            x = _mm_add_epi16(_mm_srai_epi16(_mm_mullo_epi16(calpha, _mm_sub_epi16(x, c128)), 8), c128);
+            tmp = _mm_packs_epi16(x, zero);
+			_mm_storel_pd((double*) &result.v_[i], tmp);
+        }
+
+        return result;
+    }
 };
 
-using ImplSimdSSE2 = ImplSimd<SimdSSE2>;
+using ImplSimdSSE2 = SimdSSE2;
 
 
 #endif //SIMD_IMPL_SIMD_SSE2_H
