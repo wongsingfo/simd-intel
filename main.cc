@@ -7,6 +7,7 @@
 #include "rgb_888.h"
 #include "impl_general.h"
 #include "impl_simd_mmx.h"
+#include "impl_simd_sse2.h"
 
 template <typename Impl>
 void do_work(Impl impl) {
@@ -23,7 +24,8 @@ int main() {
     try {
         
         // do_work(ImplGeneral());
-        do_work(ImplSimdMMX());
+        // do_work(ImplSimdMMX());
+        do_work(ImplSimdSSE2());
 
 
     } catch (const std::exception& e) {
