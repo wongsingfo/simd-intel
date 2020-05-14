@@ -3,6 +3,8 @@
 //
 
 #include <iostream>
+#include <sstream>
+#include <iomanip>
 #include "yuv_420.h"
 #include "rgb_888.h"
 #include "impl_general.h"
@@ -14,13 +16,21 @@
 template <typename Impl>
 void do_work(Impl impl) {
     Stopwatch stopwatch;
-	YUV420 image1;
-    image1.read_from_yuv("dem1.yuv");
-    YUV420 output = impl.AlphaBlending(image1, 128);
-    // output.write_to_yuv("output.yuv");
 
-    image1.free();
-    output.free();
+    for (int a = 1; a < 255; a += 3) {
+    	YUV420 image1;
+        image1.read_from_yuv("dem1.yuv");
+        YUV420 output = impl.AlphaBlending(image1, a);
+
+        std::ostringstream output_file;
+        output_file << "output"
+                    << std::setfill('0') << std::setw(3) << a 
+                    << ".yuv";
+        output.write_to_yuv(output_file.str());
+
+        image1.free();
+        output.free();
+    }
 
     std::cout << stopwatch.getElapsedInMicroseconds() / 1000 << " ms " << std::endl;
 }
